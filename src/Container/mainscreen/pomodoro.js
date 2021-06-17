@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import Button from '../../components/button';
 
 export default function Pomodoro() {
   return (
@@ -14,11 +21,22 @@ export default function Pomodoro() {
           <TextInput />
         </View>
       </View>
-      <View>
+      <View style={styles.eventText}>
         <Text>Time to do some work!</Text>
       </View>
       <View style={styles.timer}>
-        <Text>25 mintues</Text>
+        <Text style={styles.timertext}>25 mintues</Text>
+      </View>
+      <View style={styles.buttons}>
+        <View>
+          <Button text="Play" />
+        </View>
+        <View>
+          <Button text="Pause" />
+        </View>
+        <View>
+          <Button text="Stop" />
+        </View>
       </View>
     </View>
   );
@@ -27,7 +45,6 @@ export default function Pomodoro() {
 const styles = StyleSheet.create({
   takeinput: {
     flexDirection: 'row',
-    borderWidth: 1,
   },
   workTime: {
     width: '50%',
@@ -39,10 +56,24 @@ const styles = StyleSheet.create({
   },
   timer: {
     height: 150,
-    marginTop: 80,
+    marginTop: 45,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#c2c2a3',
+  },
+  eventText: {
+    marginTop: 40,
+    marginLeft: 10,
+  },
+  timertext: {
+    fontSize: 30,
+    color: '#3d3d29',
+  },
+  buttons: {
+    marginTop: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });
