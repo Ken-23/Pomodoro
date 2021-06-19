@@ -8,34 +8,54 @@ import {
 } from 'react-native';
 import Button from '../../components/button';
 
-export default function Pomodoro() {
+export default function Pomodoro({
+  timerMinute,
+  timerSecond,
+  setworktime,
+  breaktime,
+  setbreaktime,
+  setworkandbreaktime,
+}) {
+  
   return (
     <View>
       <View style={styles.takeinput}>
         <View style={styles.workTime}>
           <Text>Work length</Text>
-          <TextInput />
+          <TextInput placeholder="Work Time" onChangeText={setworktime} />
         </View>
         <View style={styles.breakTime}>
           <Text>Break length</Text>
-          <TextInput />
+          <TextInput placeholder="Break Time" onChangeText={setbreaktime} />
         </View>
       </View>
+      <TouchableOpacity onPress={setworkandbreaktime}>
+        <View style={styles.submitbutton}>
+          <Text>Submit</Text>
+        </View>
+      </TouchableOpacity>
       <View style={styles.eventText}>
         <Text>Time to do some work!</Text>
       </View>
       <View style={styles.timer}>
-        <Text style={styles.timertext}>25 mintues</Text>
+        <Text style={styles.timertext}>
+          {timerMinute}:
+          {timerSecond === 0
+            ? '00'
+            : timerSecond < 10
+            ? '0' + timerSecond
+            : timerSecond}
+        </Text>
       </View>
       <View style={styles.buttons}>
         <View>
           <Button text="Play" />
         </View>
         <View>
-          <Button text="Pause" />
+          <Button text="Stop" />
         </View>
         <View>
-          <Button text="Stop" />
+          <Button text="Reset" />
         </View>
       </View>
     </View>
@@ -58,6 +78,7 @@ const styles = StyleSheet.create({
     height: 150,
     marginTop: 45,
     padding: 20,
+    borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#c2c2a3',
@@ -75,5 +96,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  submitbutton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#c2c2a3',
+    height: 40,
+    borderRadius: 8,
   },
 });
