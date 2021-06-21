@@ -7,8 +7,8 @@ export default function App() {
   const header = 'Pomodoro Timer';
   const [worktime, setworktime] = useState(25);
   const [breaktime, setbreaktime] = useState(5);
-  const [isSesssion, setisSession] = useState(true);
-  const [relaxtime, setrelaxtime] = useState(false);
+  const isSession = true;
+  const relaxtime = false;
   const timerSecond = 0;
   const timerMinute = worktime;
 
@@ -26,11 +26,22 @@ export default function App() {
       setbreaktime(breaktime);
     }
   };
-  function onUpdatetimeinterval () {
-    return(
-      timerMinute : worktime - 1;
-    )
+
+  const decreaseTimeminute = () => {
+    return {
+      timerMinute: timerMinute - 1,
+    };
+  };
+
+  function toggleSession(isSession) {
+    if (isSession) {
+      timerMinute: worktime;
+    } else {
+      timerMinute: breaktime;
+    }
+    console.log(timerMinute);
   }
+
   return (
     <SafeAreaView style={styles.mainscreen}>
       <Header header={header} />
@@ -41,6 +52,10 @@ export default function App() {
         breaktime={breaktime}
         setbreaktime={setbreaktime}
         setworkandbreaktime={setworkandbreaktime}
+        decreaseTimeminute={decreaseTimeminute}
+        toggleSession={toggleSession}
+        isSession={isSession}
+        relaxtime={relaxtime}
       />
     </SafeAreaView>
   );

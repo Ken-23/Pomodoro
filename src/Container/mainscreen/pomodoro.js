@@ -15,8 +15,29 @@ export default function Pomodoro({
   breaktime,
   setbreaktime,
   setworkandbreaktime,
+  decreaseTimeminute,
+  toggleSession,
+  isSession,
+  relaxtime,
 }) {
-  
+  const play = () => {
+    setInterval(decreaseTimer, 1000);
+  };
+
+  const decreaseTimer = () => {
+    if (timerMinute === 0) {
+      if (isSession) {
+        isSession: false;
+      }
+      toggleSession();
+    }
+    if (timerSecond === 0) {
+      timerSecond: 59;
+      decreaseTimeminute();
+    } else {
+      timerSecond: timerSecond - 1;
+    }
+  };
   return (
     <View>
       <View style={styles.takeinput}>
@@ -49,7 +70,7 @@ export default function Pomodoro({
       </View>
       <View style={styles.buttons}>
         <View>
-          <Button text="Play" />
+          <Button text="Play" onPress={play} />
         </View>
         <View>
           <Button text="Stop" />

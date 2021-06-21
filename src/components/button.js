@@ -13,9 +13,10 @@ export default function Button({text}) {
 
 const styles = StyleSheet.create({
   button: {
+    marginLeft: 13,
     marginRight: 13,
-    width: 50,
-    height: 25,
+    width: 60,
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
