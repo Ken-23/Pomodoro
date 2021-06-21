@@ -21,7 +21,8 @@ export default function Pomodoro({
   relaxtime,
 }) {
   const play = () => {
-    setInterval(decreaseTimer, 1000);
+    alert('Pressed');
+    /* setInterval(decreaseTimer, 1000); */
   };
 
   const decreaseTimer = () => {
@@ -70,7 +71,7 @@ export default function Pomodoro({
       </View>
       <View style={styles.buttons}>
         <View>
-          <Button text="Play" onPress={play} />
+          <Button text="Play" play={play} />
         </View>
         <View>
           <Button text="Stop" />
