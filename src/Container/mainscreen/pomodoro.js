@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,49 +9,50 @@ import {
 import Button from '../../components/button';
 
 export default function Pomodoro({
-  timerMinute,
-  timerSecond,
-  setworktime,
-  breaktime,
-  setbreaktime,
-  setworkandbreaktime,
-  decreaseTimeminute,
-  toggleSession,
-  isSession,
-  relaxtime,
+  workTime,
+  setworkTime,
+  breakTime,
+  setbreakTime,
+  isWorkSession,
+  isRelaxSession,
+  setWorkandBreakTime,
+  totalSeconds,
+  settotalSeconds,
 }) {
+  const [seconds, setseconds] = useState(0);
+  const totalMinutes = totalSeconds / 60;
+
   const play = () => {
-    alert('Pressed');
-    /* setInterval(decreaseTimer, 1000); */
+    let intervalId = setInterval(decreaseSeconds(), 1000);
   };
 
-  const decreaseTimer = () => {
-    if (timerMinute === 0) {
-      if (isSession) {
-        isSession: false;
+  const decreaseSeconds = () => {
+    if (totalSeconds != 0) {
+      totalMinutes = totalSeconds / 60;
+      if (seconds === 0) {
+        seconds = 59;
+      } else {
+        setseconds(seconds - 1);
+        settotalSeconds(totalSeconds - 1);
       }
+    } else if (totalSeconds === 0) {
       toggleSession();
     }
-    if (timerSecond === 0) {
-      timerSecond: 59;
-      decreaseTimeminute();
-    } else {
-      timerSecond: timerSecond - 1;
-    }
   };
+
   return (
     <View>
       <View style={styles.takeinput}>
         <View style={styles.workTime}>
           <Text>Work length</Text>
-          <TextInput placeholder="Work Time" onChangeText={setworktime} />
+          <TextInput value={workTime.toString()} onChangeText={setworkTime} />
         </View>
         <View style={styles.breakTime}>
           <Text>Break length</Text>
-          <TextInput placeholder="Break Time" onChangeText={setbreaktime} />
+          <TextInput value={breakTime.toString()} onChangeText={setbreakTime} />
         </View>
       </View>
-      <TouchableOpacity onPress={setworkandbreaktime}>
+      <TouchableOpacity onPress={setWorkandBreakTime}>
         <View style={styles.submitbutton}>
           <Text>Submit</Text>
         </View>
@@ -61,12 +62,8 @@ export default function Pomodoro({
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
-          {timerMinute}:
-          {timerSecond === 0
-            ? '00'
-            : timerSecond < 10
-            ? '0' + timerSecond
-            : timerSecond}
+          {totalMinutes}:
+          {seconds ? '0' : seconds < 10 ? '0' + seconds : seconds}
         </Text>
       </View>
       <View style={styles.buttons}>

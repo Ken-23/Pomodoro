@@ -5,57 +5,48 @@ import Pomodoro from './Container/mainscreen/pomodoro';
 
 export default function App() {
   const header = 'Pomodoro Timer';
-  const [worktime, setworktime] = useState(25);
-  const [breaktime, setbreaktime] = useState(5);
-  const isSession = true;
-  const relaxtime = false;
-  const timerSecond = 0;
-  const timerMinute = worktime;
+  const [workTime, setworkTime] = useState(25);
+  const [breakTime, setbreakTime] = useState(5);
+  const [isWorkSession, setisWorkSession] = useState(true);
+  const [isRelaxSession, setisRelaxSession] = useState(false);
+  const [totalSeconds, settotalSeconds] = useState(workTime * 60);
 
-  const setworkandbreaktime = () => {
-    if (isNaN(worktime) || isNaN(breaktime)) {
+  const setWorkandBreakTime = () => {
+    if (isNaN(workTime) || isNaN(breakTime)) {
       alert('Please enter numbers only');
-      if (isNaN(worktime)) {
-        setworktime('');
+      if (isNaN(workTime)) {
+        setworkTime('');
       }
-      if (isNaN(breaktime)) {
-        setbreaktime('');
+      if (isNaN(breakTime)) {
+        setbreakTime('');
       }
     } else {
-      setworktime(worktime);
-      setbreaktime(breaktime);
+      alert('Success');
     }
   };
 
-  const decreaseTimeminute = () => {
-    return {
-      timerMinute: timerMinute - 1,
-    };
-  };
-
-  function toggleSession(isSession) {
-    if (isSession) {
-      timerMinute: worktime;
+  function toggleSession() {
+    if (isWorkSession) {
+      settotalSeconds(breakTime * 60);
+      setisWorkSession(false);
     } else {
-      timerMinute: breaktime;
+      settotalSeconds(workTime * 60);
+      setisWorkSession(true);
     }
-    console.log(timerMinute);
   }
-
   return (
     <SafeAreaView style={styles.mainscreen}>
       <Header header={header} />
       <Pomodoro
-        timerMinute={timerMinute}
-        timerSecond={timerSecond}
-        setworktime={setworktime}
-        breaktime={breaktime}
-        setbreaktime={setbreaktime}
-        setworkandbreaktime={setworkandbreaktime}
-        decreaseTimeminute={decreaseTimeminute}
-        toggleSession={toggleSession}
-        isSession={isSession}
-        relaxtime={relaxtime}
+        totalSeconds={totalSeconds}
+        workTime={workTime}
+        setworkTime={setworkTime}
+        breakTime={breakTime}
+        setbreakTime={setbreakTime}
+        isWorkSession={isWorkSession}
+        isRelaxSession={isRelaxSession}
+        setWorkandBreakTime={setWorkandBreakTime}
+        settotalSeconds={settotalSeconds}
       />
     </SafeAreaView>
   );
@@ -64,5 +55,6 @@ export default function App() {
 const styles = StyleSheet.create({
   mainscreen: {
     height: '100%',
+    backgroundColor: '#e5e5cc',
   },
 });
