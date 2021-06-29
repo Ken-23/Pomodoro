@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, StyleSheet, SafeAreaView} from 'react-native';
 import Header from './Container/mainscreen/Header';
 import Pomodoro from './Container/mainscreen/pomodoro';
@@ -7,46 +7,57 @@ export default function App() {
   const header = 'Pomodoro Timer';
   const [workTime, setworkTime] = useState(25);
   const [breakTime, setbreakTime] = useState(5);
-  const [isWorkSession, setisWorkSession] = useState(true);
-  const [isRelaxSession, setisRelaxSession] = useState(false);
-  const [totalSeconds, settotalSeconds] = useState(workTime * 60);
+  const [isRunning, setisRunning] = useState(false);
 
-  const setWorkandBreakTime = () => {
-    if (isNaN(workTime) || isNaN(breakTime)) {
-      alert('Please enter numbers only');
-      if (isNaN(workTime)) {
-        setworkTime('');
-      }
-      if (isNaN(breakTime)) {
-        setbreakTime('');
-      }
-    } else {
-      alert('Success');
+  function play() {
+    if (isRunning) {
+      return;
     }
-  };
+    setisRunning(true);
+    Timer();
+  }
+  function Timer() {
+    const [time, settime] = useState({mins: 0, secs: 0});
+    const [totalSeconds, settotalSeconds] = useState(workTime * 60);
+    useEffect(() => {
+      if (time.mins < 0) {
+        if (timerId) {
+          clearInterval(timerId);
+        }
+        return;
+      }
 
-  function toggleSession() {
-    if (isWorkSession) {
-      settotalSeconds(breakTime * 60);
-      setisWorkSession(false);
-    } else {
-      settotalSeconds(workTime * 60);
-      setisWorkSession(true);
-    }
+      const timerId = setInterval(() => {
+        secondsdecrease();
+      }, 1000);
+      function secondsdecrease() {
+        settime({...time, mins: Math.floor(totalSeconds / 60)});
+        settime({
+          ...time,
+          secs: Math.floor(totalSeconds - time.mins * 60),
+        });
+        if (time.secs <= 0) {
+          if (time.mins <= 0) {
+            alert('Timer ended');
+          } else {
+            settime({...time, mins: time.mins - 1, secs: 59});
+          }
+        } else {
+          settime({...time, mins: time.mins, secs: time.secs - 1});
+          console.log(time.mins);
+        }
+      }
+      return () => clearInterval(timerId);
+    }, [time]);
   }
   return (
     <SafeAreaView style={styles.mainscreen}>
       <Header header={header} />
       <Pomodoro
-        totalSeconds={totalSeconds}
-        workTime={workTime}
         setworkTime={setworkTime}
-        breakTime={breakTime}
         setbreakTime={setbreakTime}
-        isWorkSession={isWorkSession}
-        isRelaxSession={isRelaxSession}
-        setWorkandBreakTime={setWorkandBreakTime}
-        settotalSeconds={settotalSeconds}
+        play={play}
+        time={time}
       />
     </SafeAreaView>
   );

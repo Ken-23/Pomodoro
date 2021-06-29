@@ -8,62 +8,26 @@ import {
 } from 'react-native';
 import Button from '../../components/button';
 
-export default function Pomodoro({
-  workTime,
-  setworkTime,
-  breakTime,
-  setbreakTime,
-  isWorkSession,
-  isRelaxSession,
-  setWorkandBreakTime,
-  totalSeconds,
-  settotalSeconds,
-}) {
-  const [seconds, setseconds] = useState(0);
-  const totalMinutes = totalSeconds / 60;
-
-  const play = () => {
-    let intervalId = setInterval(decreaseSeconds(), 1000);
-  };
-
-  const decreaseSeconds = () => {
-    if (totalSeconds != 0) {
-      totalMinutes = totalSeconds / 60;
-      if (seconds === 0) {
-        seconds = 59;
-      } else {
-        setseconds(seconds - 1);
-        settotalSeconds(totalSeconds - 1);
-      }
-    } else if (totalSeconds === 0) {
-      toggleSession();
-    }
-  };
-
+export default function Pomodoro({setworkTime, setbreakTime, play, time}) {
   return (
     <View>
       <View style={styles.takeinput}>
         <View style={styles.workTime}>
           <Text>Work length</Text>
-          <TextInput value={workTime.toString()} onChangeText={setworkTime} />
+          <TextInput keyboardType="numeric" onChangeText={setworkTime} />
         </View>
         <View style={styles.breakTime}>
           <Text>Break length</Text>
-          <TextInput value={breakTime.toString()} onChangeText={setbreakTime} />
+          <TextInput keyboardType="numeric" onChangeText={setbreakTime} />
         </View>
       </View>
-      <TouchableOpacity onPress={setWorkandBreakTime}>
-        <View style={styles.submitbutton}>
-          <Text>Submit</Text>
-        </View>
-      </TouchableOpacity>
       <View style={styles.eventText}>
         <Text>Time to do some work!</Text>
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
-          {totalMinutes}:
-          {seconds ? '0' : seconds < 10 ? '0' + seconds : seconds}
+          {time.mins === 0 ? '00' : time.mins}:
+          {time.secs < 10 ? '0' + time.secs : time.secs}
         </Text>
       </View>
       <View style={styles.buttons}>
@@ -115,12 +79,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-  },
-  submitbutton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#c2c2a3',
-    height: 40,
-    borderRadius: 8,
   },
 });
