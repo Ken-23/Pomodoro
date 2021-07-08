@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, StyleSheet, SafeAreaView} from 'react-native';
 import Header from './Container/mainscreen/Header';
 import Pomodoro from './Container/mainscreen/pomodoro';
@@ -7,40 +7,28 @@ export default function App() {
   const header = 'Pomodoro Timer';
   const [worktime, setworktime] = useState(25);
   const [breaktime, setbreaktime] = useState(5);
-  const [isSesssion, setisSession] = useState(true);
-  const [relaxtime, setrelaxtime] = useState(false);
-  const timerSecond = 0;
-  const timerMinute = worktime;
+  const [isRunning, setisRunning] = useState(false);
+  const [totalSeconds, settotalSeconds] = useState({mint: 0, secs: 0});
 
-  const setworkandbreaktime = () => {
-    if (isNaN(worktime) || isNaN(breaktime)) {
-      alert('Please enter numbers only');
-      if (isNaN(worktime)) {
-        setworktime('');
-      }
-      if (isNaN(breaktime)) {
-        setbreaktime('');
-      }
-    } else {
-      setworktime(worktime);
-      setbreaktime(breaktime);
+  function play() {
+    if (isRunning) {
+      return;
     }
-  };
-  function onUpdatetimeinterval () {
-    return(
-      timerMinute : worktime - 1;
-    )
+    setisRunning(true);
+    settotalSeconds({secs: worktime * 60});
+    console.log(totalSeconds.secs);
+    decreaseTimer();
   }
+
+  function decreaseTimer() {}
   return (
     <SafeAreaView style={styles.mainscreen}>
       <Header header={header} />
       <Pomodoro
-        timerMinute={timerMinute}
-        timerSecond={timerSecond}
         setworktime={setworktime}
-        breaktime={breaktime}
         setbreaktime={setbreaktime}
-        setworkandbreaktime={setworkandbreaktime}
+        play={play}
+        totalSeconds={totalSeconds}
       />
     </SafeAreaView>
   );

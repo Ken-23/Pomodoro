@@ -9,47 +9,43 @@ import {
 import Button from '../../components/button';
 
 export default function Pomodoro({
-  timerMinute,
-  timerSecond,
   setworktime,
-  breaktime,
   setbreaktime,
-  setworkandbreaktime,
+  play,
+  totalSeconds,
 }) {
-  
   return (
     <View>
       <View style={styles.takeinput}>
         <View style={styles.workTime}>
           <Text>Work length</Text>
-          <TextInput placeholder="Work Time" onChangeText={setworktime} />
+          <TextInput
+            keyboardType="numeric"
+            placeholder="Work Time"
+            onChangeText={setworktime}
+          />
         </View>
         <View style={styles.breakTime}>
           <Text>Break length</Text>
-          <TextInput placeholder="Break Time" onChangeText={setbreaktime} />
+          <TextInput
+            keyboardType="numeric"
+            placeholder="Break Time"
+            onChangeText={setbreaktime}
+          />
         </View>
       </View>
-      <TouchableOpacity onPress={setworkandbreaktime}>
-        <View style={styles.submitbutton}>
-          <Text>Submit</Text>
-        </View>
-      </TouchableOpacity>
       <View style={styles.eventText}>
         <Text>Time to do some work!</Text>
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
-          {timerMinute}:
-          {timerSecond === 0
-            ? '00'
-            : timerSecond < 10
-            ? '0' + timerSecond
-            : timerSecond}
+          {totalSeconds.mint === 0 ? '00' : totalSeconds.mint}:
+          {totalSeconds.secs < 10 ? '0' + totalSeconds.secs : totalSeconds.secs}
         </Text>
       </View>
       <View style={styles.buttons}>
         <View>
-          <Button text="Play" />
+          <Button text="Play" play={play} />
         </View>
         <View>
           <Button text="Stop" />
@@ -96,12 +92,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-  },
-  submitbutton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#c2c2a3',
-    height: 40,
-    borderRadius: 8,
   },
 });
