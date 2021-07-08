@@ -15,7 +15,11 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 13,
     marginRight: 13,
+<<<<<<< HEAD
     width: 70,
+=======
+    width: 60,
+>>>>>>> 7ccab8a71dab808aeba6bd65af8857b99f2b87dc
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',

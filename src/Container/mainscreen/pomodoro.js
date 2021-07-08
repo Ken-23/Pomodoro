@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,29 +9,22 @@ import {
 import Button from '../../components/button';
 
 export default function Pomodoro({
-  setworktime,
-  setbreaktime,
+  setworkTime,
+  setbreakTime,
   play,
-  totalSeconds,
+  time,
+  Stop,
 }) {
   return (
     <View>
       <View style={styles.takeinput}>
         <View style={styles.workTime}>
           <Text>Work length</Text>
-          <TextInput
-            keyboardType="numeric"
-            placeholder="Work Time"
-            onChangeText={setworktime}
-          />
+          <TextInput keyboardType="numeric" onChangeText={setworkTime} />
         </View>
         <View style={styles.breakTime}>
           <Text>Break length</Text>
-          <TextInput
-            keyboardType="numeric"
-            placeholder="Break Time"
-            onChangeText={setbreaktime}
-          />
+          <TextInput keyboardType="numeric" onChangeText={setbreakTime} />
         </View>
       </View>
       <View style={styles.eventText}>
@@ -39,8 +32,8 @@ export default function Pomodoro({
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
-          {totalSeconds.mint === 0 ? '00' : totalSeconds.mint}:
-          {totalSeconds.secs < 10 ? '0' + totalSeconds.secs : totalSeconds.secs}
+          {time.mins < 10 ? '0' + time.mins : time.mins}:
+          {time.secs < 10 ? '0' + time.secs : time.secs}
         </Text>
       </View>
       <View style={styles.buttons}>
