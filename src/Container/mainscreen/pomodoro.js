@@ -8,7 +8,13 @@ import {
 } from 'react-native';
 import Button from '../../components/button';
 
-export default function Pomodoro({setworkTime, setbreakTime, play, time}) {
+export default function Pomodoro({
+  setworkTime,
+  setbreakTime,
+  play,
+  time,
+  Stop,
+}) {
   return (
     <View>
       <View style={styles.takeinput}>
@@ -26,7 +32,7 @@ export default function Pomodoro({setworkTime, setbreakTime, play, time}) {
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
-          {time.mins === 0 ? '00' : time.mins}:
+          {time.mins < 10 ? '0' + time.mins : time.mins}:
           {time.secs < 10 ? '0' + time.secs : time.secs}
         </Text>
       </View>
