@@ -5,13 +5,14 @@ import Pomodoro from './Container/mainscreen/pomodoro';
 
 export default function App() {
   const header = 'Pomodoro Timer';
-  const [workTime, setworkTime] = useState(25);
-  const [breakTime, setbreakTime] = useState(5);
+  const [workTime, setworkTime] = useState(1);
+  const [breakTime, setbreakTime] = useState(2);
   const [isRunning, setisRunning] = useState(false);
+  const [isworkTime, setisworkTime] = useState(true);
   const [isbreakTime, setisbreakTime] = useState(false);
-  const [time, settime] = useState({mins: 1, secs: 0});
-
-  let seconds = workTime * 60;
+  const [time, settime] = useState({mins: workTime, secs: 0});
+  const [temp, setTemp] = useState({count: workTime});
+  const [title, setTitle] = useState('Time to do some work!');
 
   function play() {
     if (isRunning) {
@@ -21,19 +22,26 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (time.mins < 0) {
-      console.log('finsi');
-      return;
+    if (temp.count < 0) {
+      if (isbreakTime) {
+        settime({...time, mins: breakTime, secs: 0});
+        setTemp({...temp, count: breakTime});
+        setTitle('Relax TIme!');
+      } else {
+        settime({...time, mins: workTime, secs: 0});
+        setTemp({...temp, count: workTime});
+        setTitle('Time to do some work!');
+      }
     }
     if (isRunning) {
       const timerId = setInterval(() => {
-        settime({...time, mins: seconds / 60});
         if (time.secs <= 0) {
           if (time.mins <= 0) {
-            /* alert('Timer Ended'); */
-            console.log('ended');
+            setisbreakTime(!isbreakTime);
+            setTemp({...temp, count: temp.count - 1});
           } else {
             settime({...time, mins: time.mins - 1, secs: 59});
+            setTemp({...temp, count: temp.count - 1});
           }
         } else {
           settime({...time, mins: time.mins, secs: time.secs - 1});
@@ -41,7 +49,7 @@ export default function App() {
       }, 1000);
       return () => clearInterval(timerId);
     }
-  }, [time, isRunning]);
+  }, [time, isRunning, temp]);
 
   return (
     <SafeAreaView style={styles.mainscreen}>
@@ -51,6 +59,7 @@ export default function App() {
         setbreakTime={setbreakTime}
         play={play}
         time={time}
+        title={title}
       />
     </SafeAreaView>
   );
