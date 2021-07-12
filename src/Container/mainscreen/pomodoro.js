@@ -14,6 +14,7 @@ export default function Pomodoro({
   play,
   time,
   Stop,
+  title,
 }) {
   return (
     <View>
@@ -28,7 +29,7 @@ export default function Pomodoro({
         </View>
       </View>
       <View style={styles.eventText}>
-        <Text>Time to do some work!</Text>
+        <Text>{title}</Text>
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
