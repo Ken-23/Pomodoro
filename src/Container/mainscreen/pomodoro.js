@@ -11,10 +11,13 @@ import Button from '../../components/button';
 export default function Pomodoro({
   setworkTime,
   setbreakTime,
-  play,
+  Play,
   time,
-  Stop,
+  SetTime,
+  Reset,
   title,
+  label,
+  isRunning,
 }) {
   return (
     <View>
@@ -25,7 +28,11 @@ export default function Pomodoro({
         </View>
         <View style={styles.breakTime}>
           <Text>Break length</Text>
-          <TextInput keyboardType="numeric" onChangeText={setbreakTime} />
+          <TextInput
+            keyboardType="numeric"
+            onChangeText={setbreakTime}
+            disabled={isRunning ? true : false}
+          />
         </View>
       </View>
       <View style={styles.eventText}>
@@ -39,13 +46,13 @@ export default function Pomodoro({
       </View>
       <View style={styles.buttons}>
         <View>
-          <Button text="Play" play={play} />
+          <Button text={label} handleClick={Play} />
         </View>
         <View>
-          <Button text="Stop" />
+          <Button text="SetTime" handleClick={SetTime} />
         </View>
         <View>
-          <Button text="Reset" />
+          <Button text="Reset" handleClick={Reset} />
         </View>
       </View>
     </View>
