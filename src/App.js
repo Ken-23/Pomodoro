@@ -1,55 +1,55 @@
-import React, {useState, useEffect, Children} from 'react';
-import {Text, StyleSheet, SafeAreaView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import Header from './Container/mainscreen/Header';
 import Pomodoro from './Container/mainscreen/pomodoro';
 
 export default function App() {
   const header = 'Pomodoro Timer';
-  const [workTime, setworkTime] = useState(1);
-  const [breakTime, setbreakTime] = useState(2);
+  const [workTime, setworkTime] = useState(25);
+  const [breakTime, setbreakTime] = useState(5);
+  const [isBreakTime, setisBreakTime] = useState(true);
   const [isRunning, setisRunning] = useState(false);
-  const [isworkTime, setisworkTime] = useState(true);
-  const [isbreakTime, setisbreakTime] = useState(false);
-  const [time, settime] = useState({mins: workTime, secs: 0});
-  const [temp, setTemp] = useState({count: workTime});
-  const [title, setTitle] = useState('Time to do some work!');
+  const [TotalSeconds, setTotalSeconds] = useState(workTime * 60);
+  const [copyTime, setCopyTime] = useState(TotalSeconds);
+  const [title, setTitle] = useState('Play');
 
   function play() {
     if (isRunning) {
-      return;
+      setTitle('Play');
+    } else {
+      if (workTime * 60 != copyTime) {
+        setTotalSeconds(workTime * 60);
+        setCopyTime(workTime * 60);
+      }
+      setTitle('Stop');
     }
-    setisRunning(true);
+    setisRunning(!isRunning);
   }
 
+  function reset() {
+    setisRunning(false);
+    setTotalSeconds(25 * 60);
+  }
+  console.log(workTime * 60, 'worktime');
+  console.log(TotalSeconds, 'totalseconds');
+  console.log(copyTime, 'Copytime');
+
   useEffect(() => {
-    if (temp.count < 0) {
-      if (isbreakTime) {
-        settime({...time, mins: breakTime, secs: 0});
-        setTemp({...temp, count: breakTime});
-        setTitle('Relax TIme!');
+    if (TotalSeconds == 0) {
+      setisBreakTime(!isBreakTime);
+      if (isBreakTime) {
+        setTotalSeconds(breakTime * 60);
       } else {
-        settime({...time, mins: workTime, secs: 0});
-        setTemp({...temp, count: workTime});
-        setTitle('Time to do some work!');
+        setTotalSeconds(workTime * 60);
       }
     }
     if (isRunning) {
       const timerId = setInterval(() => {
-        if (time.secs <= 0) {
-          if (time.mins <= 0) {
-            setisbreakTime(!isbreakTime);
-            setTemp({...temp, count: temp.count - 1});
-          } else {
-            settime({...time, mins: time.mins - 1, secs: 59});
-            setTemp({...temp, count: temp.count - 1});
-          }
-        } else {
-          settime({...time, mins: time.mins, secs: time.secs - 1});
-        }
+        setTotalSeconds(TotalSeconds - 1);
       }, 1000);
       return () => clearInterval(timerId);
     }
-  }, [time, isRunning, temp]);
+  }, [isRunning, TotalSeconds]);
 
   return (
     <SafeAreaView style={styles.mainscreen}>
@@ -58,12 +58,14 @@ export default function App() {
         setworkTime={setworkTime}
         setbreakTime={setbreakTime}
         play={play}
-        time={time}
+        reset={reset}
+        TotalSeconds={TotalSeconds}
         title={title}
       />
     </SafeAreaView>
   );
 }
+7;
 
 const styles = StyleSheet.create({
   mainscreen: {

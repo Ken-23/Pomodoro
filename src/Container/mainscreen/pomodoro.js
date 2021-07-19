@@ -1,19 +1,13 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 import Button from '../../components/button';
 
 export default function Pomodoro({
   setworkTime,
   setbreakTime,
   play,
-  time,
-  Stop,
+  reset,
+  TotalSeconds,
   title,
 }) {
   return (
@@ -29,23 +23,25 @@ export default function Pomodoro({
         </View>
       </View>
       <View style={styles.eventText}>
-        <Text>{title}</Text>
+        <Text>Time to do some work!</Text>
       </View>
       <View style={styles.timer}>
         <Text style={styles.timertext}>
-          {time.mins < 10 ? '0' + time.mins : time.mins}:
-          {time.secs < 10 ? '0' + time.secs : time.secs}
+          {parseInt(TotalSeconds / 60) < 10
+            ? '0' + parseInt(TotalSeconds / 60)
+            : parseInt(TotalSeconds / 60)}
+          :
+          {TotalSeconds % 60 < 10
+            ? '0' + (TotalSeconds % 60)
+            : TotalSeconds % 60}
         </Text>
       </View>
       <View style={styles.buttons}>
         <View>
-          <Button text="Play" play={play} />
+          <Button text={title} play={play} />
         </View>
         <View>
-          <Button text="Stop" />
-        </View>
-        <View>
-          <Button text="Reset" />
+          <Button text="Reset" play={reset} />
         </View>
       </View>
     </View>

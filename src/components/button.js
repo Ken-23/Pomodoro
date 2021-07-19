@@ -15,11 +15,12 @@ const styles = StyleSheet.create({
   button: {
     marginLeft: 13,
     marginRight: 13,
-    width: 60,
-    height: 30,
+    width: 80,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
     backgroundColor: '#c2c2a3',
+    borderWidth: 2,
   },
 });
